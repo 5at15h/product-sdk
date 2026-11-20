@@ -6,6 +6,7 @@ PAPI-generated chain descriptors for the Polkadot ecosystem. These provide fully
 
 | Chain | Import Path | Network |
 |-------|-------------|---------|
+| Commons Registry | `@parity/product-sdk-descriptors/commons-registry` | Canonical Linux 0.9.44 development fixture (spec 137 / tx 20) |
 | Polkadot Asset Hub | `@parity/product-sdk-descriptors/polkadot-asset-hub` | Production |
 | Kusama Asset Hub | `@parity/product-sdk-descriptors/kusama-asset-hub` | Production |
 | Paseo Asset Hub | `@parity/product-sdk-descriptors/paseo-asset-hub` | Testnet |
@@ -124,3 +125,24 @@ On drift it opens (or updates in place) a single tracking issue labeled `descrip
 6. Open a PR. Run `pnpm test:e2e` against the regenerated bindings before merging — drift sometimes hides a real consumer-side break (e.g. a pallet rename)
 
 The workflow will close the tracking issue automatically on the next scheduled run once every chain is clean.
+
+## Commons Registry fixture
+
+This descriptor is bound to the canonical Linux release's disposable `--dev` chain,
+not a production gateway or an arbitrary native build. Its `.papi/fixture.json`
+records the Chain source, binary, runtime, genesis and metadata hashes. See
+[`packages/tx/qualification/README.md`](../tx/qualification/README.md) for native
+signing qualification and the scope of the upstream patch reconciliation.
+
+Regenerate only this descriptor from its checked-in metadata with the locked CLI:
+
+```sh
+cd packages/descriptors/chains/commons-registry
+npx --no-install papi generate --config .papi/polkadot-api.json
+```
+
+`noDescriptorsPackage` prevents the generator from installing a separate nested
+PAPI version; the monorepo's frozen lockfile remains authoritative. To recapture
+metadata, launch the exact recorded binary and run `npx --no-install papi add
+commons_registry --config .papi/polkadot-api.json --wsUrl ws://127.0.0.1:19556
+--skip-codegen`, then verify all identities before replacing the fixture.

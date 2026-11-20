@@ -1,0 +1,15 @@
+{
+    "version": 0,
+    "descriptorPath": "generated",
+    "entries": {
+        "commons_registry": {
+            "wsUrl": "ws://127.0.0.1:19556",
+            "metadata": ".papi/metadata/commons_registry.scale",
+            "genesis": "0xbf5b5ab9a57d997b1568b03f8478642bbf5d8e4f904e82907717edb831e5cbac",
+            "codeHash": "0x664c54070b77251efa0c4cbea56d4b554859b626916c388727cb098fdd9a4aa3"
+        }
+    },
+    "options": {
+        "noDescriptorsPackage": true
+    }
+}

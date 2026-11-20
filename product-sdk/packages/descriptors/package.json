@@ -49,6 +49,10 @@
         "./previewnet-individuality": {
             "types": "./chains/previewnet-individuality/generated/dist/index.d.ts",
             "import": "./chains/previewnet-individuality/generated/dist/index.js"
+        },
+        "./commons-registry": {
+            "types": "./chains/commons-registry/generated/dist/index.d.ts",
+            "import": "./chains/commons-registry/generated/dist/index.js"
         }
     },
     "scripts": {

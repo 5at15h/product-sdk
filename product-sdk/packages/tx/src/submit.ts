@@ -15,7 +15,7 @@ import {
     formatValidityError,
     isSigningRejection,
 } from "./errors.js";
-import type { SubmitOptions, SubmittableTransaction, TxEvent, TxResult } from "./types.js";
+import type { NativeSubmitOptions, SubmittableTransaction, TxEvent, TxResult } from "./types.js";
 
 const DEFAULT_TIMEOUT_MS = 300_000;
 const DEFAULT_MORTALITY_PERIOD = 256;
@@ -92,7 +92,7 @@ function classifyFailure(event: { dispatchError?: unknown }, formatted: string):
 export async function submitAndWatch(
     tx: SubmittableTransaction,
     signer: CommonSignerTxCreator,
-    options?: SubmitOptions,
+    options?: NativeSubmitOptions,
 ): Promise<Result<TxResult, TxError>> {
     const waitFor = options?.waitFor ?? "best-block";
     const timeoutMs = options?.timeoutMs ?? DEFAULT_TIMEOUT_MS;
@@ -131,6 +131,9 @@ export async function submitAndWatch(
         try {
             const observable = resolvedTx.createSubmitAndWatch(signer, {
                 mortality: { mortal: true, period: mortalityPeriod },
+                ...(options?.customSignedExtensions === undefined
+                    ? {}
+                    : { customSignedExtensions: options.customSignedExtensions }),
             });
 
             subscription = observable.subscribe({
@@ -481,6 +484,29 @@ if (import.meta.vitest) {
             };
             await submitAndWatch(tx, mockSigner, { mortalityPeriod: 512 });
             expect(capturedOptions).toEqual({ mortality: { mortal: true, period: 512 } });
+        });
+
+        test("forwards caller signed extensions unchanged to the native creator", async () => {
+            const extensions = { CheckSpecVersion: { additionalSigned: 137 } };
+            const creator = vi.fn((_signer: CommonSignerTxCreator, options?: unknown) => ({
+                subscribe: (handlers: MockSubscribeHandlers) => {
+                    queueMicrotask(() => handlers.next(finalizedOk));
+                    return { unsubscribe: vi.fn() };
+                },
+            }));
+            const result = await submitAndWatch({ createSubmitAndWatch: creator }, mockSigner, {
+                customSignedExtensions: extensions,
+                waitFor: "finalized",
+            });
+            expect(result.ok).toBe(true);
+            expect(creator).toHaveBeenCalledWith(mockSigner, {
+                mortality: { mortal: true, period: 256 },
+                customSignedExtensions: extensions,
+            });
+            expect(creator.mock.calls[0][1]).toHaveProperty("customSignedExtensions", extensions);
+            expect((creator.mock.calls[0][1] as NativeSubmitOptions).customSignedExtensions).toBe(
+                extensions,
+            );
         });
 
         test("wraps signing rejection in TxSigningRejectedError", async () => {

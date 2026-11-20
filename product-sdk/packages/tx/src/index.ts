@@ -12,6 +12,11 @@
  *
  * @packageDocumentation
  */
+export {
+    createRegistryTxCreator,
+    RegistryLayoutError,
+    RegistrySignatureError,
+} from "./registry-signer.js";
 export { submitAndWatch } from "./submit.js";
 export { batchSubmitAndWatch } from "./batch.js";
 export { withRetry, calculateDelay } from "./retry.js";
@@ -41,6 +46,7 @@ export type {
     WaitFor,
     TxResult,
     SubmitOptions,
+    NativeSubmitOptions,
     RetryOptions,
     DevAccountName,
     Weight,

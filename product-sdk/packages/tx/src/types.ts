@@ -34,6 +34,14 @@ export interface SubmitOptions {
     onStatus?: (status: TxStatus) => void;
 }
 
+/** Explicit native transaction options; contract wrappers retain {@link SubmitOptions}. */
+export interface NativeSubmitOptions extends SubmitOptions {
+    /** Metadata-defined extension values forwarded unchanged to the native creator.
+     * No chain-specific authorization or signing defaults are inferred.
+     */
+    customSignedExtensions?: Record<string, { value?: unknown; additionalSigned?: unknown }>;
+}
+
 /** Options for {@link withRetry}. */
 export interface RetryOptions {
     /** Total attempts including the first. Default: `3`. */

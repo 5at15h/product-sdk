@@ -1,0 +1,20 @@
+{
+    "scope": "Commons Registry canonical release --chain dev fixture; public development keys; not a deployed network",
+    "chainSource": "e46e37ef03a25efb1f5c42d3e7c47da9647189cc",
+    "releaseVersion": "0.9.44",
+    "binarySha256": "40f97c756ab6b4365f210a8f36d06eac7740c4d1862362dc6ad01b723e3b25e9",
+    "archiveSha256": "f3520beaf50f03b67a7e91f65ceb27ce1ecd27d8c6760db2e043c7ed904f7dab",
+    "genesis": "0xbf5b5ab9a57d997b1568b03f8478642bbf5d8e4f904e82907717edb831e5cbac",
+    "runtimeCodeSha256": "0xb277bc52943903a26f40a056bce29a959eda423d2d88926f355b60cede21ad50",
+    "runtimeCodeBlake2_256": "0x664c54070b77251efa0c4cbea56d4b554859b626916c388727cb098fdd9a4aa3",
+    "specVersion": 137,
+    "transactionVersion": 20,
+    "metadataVersion": 16,
+    "metadataSha256": "9c0f3fb3cebc162018f1c0a667a9fed9e2e6fef72e7e9a6ad3362f52ca6e528d",
+    "signingVectorsSha256": "32ae67429ae725f8b6259a3b44972f871d7656a6b81186029e1b6a2e322deed5",
+    "signingVectorsSource": "commons/docs/development/native-contract/signing-vectors.json at e46e37ef03a25efb1f5c42d3e7c47da9647189cc",
+    "upstreamProductSdk": {
+        "tag": "@parity/product-sdk@0.45.0",
+        "commit": "1f5ca255d4470ccd763473c7cebc9de9c4c13a1d"
+    }
+}

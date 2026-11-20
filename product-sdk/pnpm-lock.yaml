@@ -1112,15 +1112,24 @@ importers:
       '@parity/result':
         specifier: workspace:*
         version: link:../result
+      '@polkadot-api/metadata-builders':
+        specifier: 'catalog:'
+        version: 0.15.2
       '@polkadot-api/signers-common':
         specifier: 'catalog:'
         version: 0.4.0(rxjs@7.8.2)
+      '@polkadot-api/substrate-bindings':
+        specifier: 'catalog:'
+        version: 0.21.2
       '@polkadot-labs/hdkd-helpers':
         specifier: 'catalog:'
         version: 0.0.30
       polkadot-api:
         specifier: 'catalog:'
         version: 3.2.1(esbuild@0.28.1)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
     devDependencies:
       typescript:
         specifier: ^5.7.0

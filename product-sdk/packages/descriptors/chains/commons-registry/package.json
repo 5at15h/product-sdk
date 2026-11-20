@@ -1,0 +1,6 @@
+{
+    "name": "@parity/product-sdk-descriptors-commons-registry",
+    "private": true,
+    "version": "0.0.1",
+    "type": "module"
+}
