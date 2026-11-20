@@ -72,6 +72,11 @@ jobs:
                   : > drift-report.jsonl
                   for chain_dir in chains/*/; do
                     chain=$(basename "$chain_dir")
+                    # The Registry descriptor targets the local development node
+                    # started by test:commons-registry.
+                    if [[ "$chain" == "commons-registry" ]]; then
+                      continue
+                    fi
                     cfg="$chain_dir.papi/polkadot-api.json"
                     key=$(jq -r '.entries | keys[0]' "$cfg")
                     pinned_code=$(jq -r ".entries.\"$key\".codeHash" "$cfg")
