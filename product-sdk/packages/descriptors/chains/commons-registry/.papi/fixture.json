@@ -14,7 +14,7 @@
     "signingVectorsSha256": "32ae67429ae725f8b6259a3b44972f871d7656a6b81186029e1b6a2e322deed5",
     "signingVectorsSource": "commons/docs/development/native-contract/signing-vectors.json at e46e37ef03a25efb1f5c42d3e7c47da9647189cc",
     "upstreamProductSdk": {
-        "tag": "@parity/product-sdk@0.45.0",
-        "commit": "1f5ca255d4470ccd763473c7cebc9de9c4c13a1d"
+        "tag": "@parity/product-sdk@0.46.0",
+        "commit": "3b5d7d30dc8009ac55293c2a737d0b37423a99d0"
     }
 }

@@ -49,7 +49,7 @@ try {
     const policy = await api.query.Endpoints.CurrentPolicy.getValue();
     assert(policy != null && Number(policy.revision) > 0);
     record.registryPolicy = policy;
-    const tx = api.tx.System.remark_with_event({ remark: Binary.fromText("T324.17/native-registry") });
+    const tx = api.tx.System.remark_with_event({ remark: Binary.fromText("Commons/native-registry") });
     const bad = await submitAndWatch(tx, signer, { waitFor: "finalized", timeoutMs: 90_000, mortalityPeriod: 64, customSignedExtensions: { CheckSpecVersion: { additionalSigned: 136 } } });
     record.negative = bad.ok ? { unexpectedSuccess: bad.value } : { name: bad.error.name, message: bad.error.message, reason: bad.error.reason };
     assert(!bad.ok, "wrong spec implicit must not be silently replaced or finalized");

@@ -1,7 +1,7 @@
 # Commons Registry native qualification
 
 This is the smallest current Registry integration on upstream Product SDK
-`@parity/product-sdk@0.45.0` (`1f5ca255d4470ccd763473c7cebc9de9c4c13a1d`).
+`@parity/product-sdk@0.46.0` (`3b5d7d30dc8009ac55293c2a737d0b37423a99d0`).
 It adds one pinned development descriptor, an opt-in native V4 Ed25519 creator,
 and native submission's explicit `customSignedExtensions`. Generic upstream
 signers and contract options retain their existing behavior.
@@ -28,10 +28,9 @@ Use Node 22 and the frozen workspace lockfile. From `product-sdk/`:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @parity/product-sdk-tx... build
-pnpm --filter @parity/product-sdk-descriptors build
-pnpm --filter @parity/product-sdk-tx test run
-pnpm --filter @parity/product-sdk-tx typecheck
+pnpm --recursive --no-bail build
+CI=1 pnpm --recursive --no-bail test --run
+pnpm --recursive --no-bail typecheck
 pnpm check
 ```
 
@@ -89,6 +88,37 @@ was cherry-picked. Decisions are against the current upstream base:
 The adapter adds only direct dependencies already present in the frozen upstream
 graph (`metadata-builders`, `substrate-bindings`, `rxjs`); it upgrades no PAPI
 version. The Registry generator disables a nested descriptor-package install.
-The eleven untouched upstream descriptor configs retain their existing installer
-behavior; qualification removed task-created nested installs before running live
-checks, so those cannot shadow the locked PAPI version.
+The eleven upstream descriptor configs retain their existing installer behavior;
+remove any task-created `chains/*/node_modules` after generation before running
+live checks, so they cannot shadow the frozen workspace PAPI version. The Registry
+config itself uses `noDescriptorsPackage: true`.
+
+
+## Upstream 0.46.0 applicability
+
+The supported branch integrates the official release rather than replaying the
+July patches. The only overlapping files are the tx package manifest and the
+workspace lock: upstream's tx version is retained together with the Registry test
+command and its three direct codec/RxJS dependencies. No signing implementation
+changed upstream in this release; the native adapter and all nine Rust vectors
+remain necessary and unchanged.
+
+The release adopts truapi 0.32.0 (wire schema hash `7c6a3a324db0decd`, codec 3).
+Host products must pair it with a matching 0.32.0 host. The SDK's reset recovery
+reopens eligible action/list subscriptions after a connection reset, including a
+reset while the link remains connected, with bounded backoff and unsubscribe
+cleanup. This is useful for host-connected products; it does not wrap the local
+Registry WebSocket client or establish a production Commons host contract.
+
+UI faces replace `Effect` with `Materials`; renderer validation, float-bit
+parameters and fallback rendering are upstream host/UI concerns. Product storage
+clearing and NFT purse APIs also target the host surface. NFT claims now account
+for finished/pruned award trees through the People/Asset Hub contracts. Today's
+Commons Registry descriptor has no such NFT/host/renderer contracts, so none is
+adapted into Registry signing or presented as a qualified Commons capability.
+The upstream implementations and tests are retained. No Gateway or July demo is
+modified, and no credentials or external host are needed for local qualification.
+
+The earlier 0.45.0 receipt remains historical evidence; the checked-in fixture's
+SDK provenance names the current upstream input. Its Chain source, metadata,
+runtime, genesis and Rust signing-vector hashes remain unchanged.
